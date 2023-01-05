@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace leandrogehlen\querybuilder;
 
 
 use yii\base\BaseObject;
+use yii\web\JsExpression;
 
 /**
  * The validation object representation
@@ -11,16 +14,14 @@ use yii\base\BaseObject;
  * @see http://mistic100.github.io/jQuery-QueryBuilder/#validation
  * @author Leandro Gehlen <leandrogehlen@gmail.com>
  */
-class Validation extends BaseObject implements Optionable
+class Validation extends BaseObject
 {
-    use OptionTrait;
-
     /**
      * @var string Performs validation according to the specified format
      * - For `date`, `time`, `datetime`: a valid MomentJS string format
      * - For `string`: a regular expression (plain or RegExp object)
      */
-    public $format;
+    public string $format;
 
     /**
      * @var integer|float|string upper limit of the number
@@ -28,30 +29,30 @@ class Validation extends BaseObject implements Optionable
      * - For `date`, `time`, `datetime`: maximum value, respecting format
      * - For `string`: maximum length
      */
-    public $max;
+    public string|int|float $max;
     /**
      * @var integer|float|string lower limit of the number
      * - For `integer`, `double`: minimum value
      * - For `date`, `time`, `datetime`: minimum value, respecting format
      * - For `string`: minimum length
      */
-    public $min;
+    public string|int|float $min;
 
     /**
      * @var integer|double The step value
-     * For double you should always provide this value in order to pass the browser validation on number inputs
+     * For double, you should always provide this value in order to pass the browser validation on number inputs
      */
-    public $step;
+    public int|float $step;
 
     /**
-     * @var yii\web\JsExpression A function used to perform the validation.
-     * If provided, the default validation will not be performed. It must returns true if the value is valid
+     * @var JsExpression A function used to perform the validation.
+     * If provided, the default validation will not be performed. It must return true if the value is valid
      * or an error string otherwise. It takes 4 parameters:
      * value
      * filter
      * operator
      * $rule, the jQuery <li> element of the rule
      */
-    public $callback;
+    public JsExpression $callback;
 
 } 

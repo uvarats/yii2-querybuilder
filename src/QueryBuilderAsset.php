@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace leandrogehlen\querybuilder;
 
 use yii\web\AssetBundle;
+use yii\web\JqueryAsset;
 
 /**
  * This asset bundle provides the [jquery QueryBuilder library](https://github.com/mistic100/jQuery-QueryBuilder)
@@ -22,7 +25,7 @@ class QueryBuilderAsset extends AssetBundle {
     ];
 
     public $depends = [
-        'yii\web\JqueryAsset'
+        JqueryAsset::class
     ];
 
 }

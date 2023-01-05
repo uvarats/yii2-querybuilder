@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace leandrogehlen\querybuilder;
 
 
@@ -47,7 +49,7 @@ class QueryBuilderForm extends Widget
      * @param array|string $action the form action URL. This parameter will be processed by [[\yii\helpers\Url::to()]].
      * @see method for specifying the HTTP method for this form.
      */
-    public $action = [''];
+    public array $action = [''];
 
     /**
      * @var string the form submission method. This should be either 'post' or 'get'. Defaults to 'get'.
@@ -56,18 +58,18 @@ class QueryBuilderForm extends Widget
      * This is because the default value of [[action]] is set to be the current request url and each submit
      * will add new parameters instead of replacing existing ones.
      */
-    public $method = 'get';
+    public string $method = 'get';
 
     /**
      * @var array the HTML attributes (name-value pairs) for the form tag.
      * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.
      */
-    public $options = [];
+    public array $options = [];
 
     /**
      * @var string the hidden input name that will be used to send JSON rules into string format
      */
-    public $rulesParam = 'rules';
+    public string $rulesParam = 'rules';
 
     /**
      * @var array|QueryBuilder QueryBuilder column configuration.
@@ -86,23 +88,26 @@ class QueryBuilderForm extends Widget
      *]) ?>
      * ```
      */
-    public $builder;
+    public QueryBuilder|array $builder;
 
     /**
      * @var string JSON rules representation into array format
      */
-    public $rules;
+    public string $rules;
 
     /**
      * @inheritdoc
+     * @throws InvalidConfigException
      */
     public function init()
     {
         if (is_array($this->builder)) {
-            $this->builder = Yii::createObject(array_merge([
-                    'class' => QueryBuilder::className()
-                ], $this->builder)
-            );
+            $config = array_merge([
+                'class' => QueryBuilder::class
+            ], $this->builder);
+            /** @var QueryBuilder $builder */
+            $builder = Yii::createObject($config);
+            $this->builder = $builder;
         }
 
         if (!$this->builder instanceof QueryBuilder) {

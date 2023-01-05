@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace leandrogehlen\querybuilder;
 
 /**
@@ -18,10 +20,10 @@ class QueryBuilder extends \soluto\plugin\Widget {
     /**
      * @inheritdoc
      */
-    protected function assets()
+    protected function assets(): array
     {
         return [
-            QueryBuilderAsset::className()
+            QueryBuilderAsset::class
         ];
     }
 
