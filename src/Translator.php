@@ -87,7 +87,6 @@ class Translator extends BaseObject
         }
 
         if ($pattern instanceof ArrayOperatorPattern) {
-            $op = $pattern->getPattern();
             if ($pattern->isList()) {
                 $separator = $pattern->getSeparator();
                 $replacement = implode($separator, $keys);
@@ -95,11 +94,17 @@ class Translator extends BaseObject
                 $replacement = key($params);
                 $params[$replacement] = $pattern->getReplacement($params[$replacement]);
             }
-            $pattern = $op;
         }
 
         $this->setParams(array_merge($this->params, $params));
-        return $field . " " . ($replacement ? str_replace("?", $replacement, $pattern) : $pattern);
+
+        $condition = $pattern->getPattern();
+
+        if ($replacement !== null) {
+            $condition = str_replace("?", $replacement, $pattern->getPattern());
+        }
+
+        return $field . " " . $condition;
     }
 
     /**

@@ -91,9 +91,9 @@ class QueryBuilderForm extends Widget
     public QueryBuilder|array $builder;
 
     /**
-     * @var array JSON rules representation into array format
+     * @var array|null JSON rules representation into array format
      */
-    public array $rules;
+    public ?array $rules;
 
     /**
      * @inheritdoc
